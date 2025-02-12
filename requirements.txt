@@ -1,0 +1,13 @@
+# TODO: Update with exact module version
+opencv-python
+ultralytics
+torch
+torchvision
+torchaudio
+matplotlib 
+numpy
+tqdm
+pillow
+
+# For GPU (CUDA 11.8), install Torch manually with:
+# pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
