@@ -1,0 +1,5 @@
+venv/
+htmlcov/
+.pytest_cache/
+YOTRACO/__pycache__
+tests/__pycache__

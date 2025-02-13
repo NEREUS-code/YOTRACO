@@ -17,7 +17,9 @@ class TestYotraco(unittest.TestCase):
         self.yotraco = Yotraco(self.model_path, self.video_path, self.output_video)
 
     def test_model_loading(self):
-        """Test if the YOLO model is loaded correctly"""
+        """
+        Test if the YOLO model is loaded correctly
+        """
         self.assertTrue(self.yotraco.model is not None)
         # TODO : fix the model equality test
         # self.assertEqual(self.yotraco.model.model, self.model_path)
