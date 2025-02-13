@@ -40,3 +40,5 @@ class YotracoStats:
         plt.legend()
         plt.show()
         
+
+

@@ -3,7 +3,7 @@ import cv2
 import logging
 from ultralytics import YOLO
 from collections import defaultdict
-from yotracoStats import YotracoStats
+from YOTRACO.yotracoStats import YotracoStats
 
 logging.basicConfig(level=logging.INFO)  # Set up logging globally
 
@@ -90,7 +90,10 @@ class Yotraco:
         # Process detections
         if results[0].boxes.data is not None:
             boxes = results[0].boxes.xyxy.cpu()
-            track_ids = results[0].boxes.id.int().cpu().tolist()
+            if results[0].boxes.id is not None :
+                track_ids = results[0].boxes.id.int().cpu().tolist()
+            else:
+                track_ids = []
             class_indices = results[0].boxes.cls.int().cpu().tolist()
 
             for box, track_id, class_idx in zip(boxes, track_ids, class_indices):
