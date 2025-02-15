@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "yotraco"
+version = "0.1.0"
+description = "A YOLO-based object tracking and counting system."
+readme = "README.md"
+authors = [
+    {name = "YOTRACO TEAM", email = "nereuscode@gmail.com"}
+]
+license = {text = "MIT"}
+dependencies = [
+    "torch",
+    "opencv-python",
+    "ultralytics",
+    "matplotlib"
+]
+requires-python = ">=3.8"
+
+[project.urls]
+Homepage = "https://github.com/NEREUS-code/YOTRACO"

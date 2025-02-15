@@ -168,7 +168,7 @@ class Yotraco:
             
             self.process_frame(frame)
             if self.display_counts==True:
-                self.display_counts(frame)
+                self.process_frame(frame)
 
             # Save processed frame
             self.out.write(frame)
