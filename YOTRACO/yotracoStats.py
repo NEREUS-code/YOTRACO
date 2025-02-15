@@ -26,7 +26,7 @@ class YotracoStats:
             # TODO : support other format
             raise ValueError("Unsupported file format. Use 'json' or 'csv' .")
     
-    def plot_counts(self):
+    def plot_bar(self):
         labels = list(set(self.class_counts_in.keys()).union(set(self.class_counts_out.keys())))
         in_counts = [self.class_counts_in.get(label, 0) for label in labels]
         out_counts = [self.class_counts_out.get(label, 0) for label in labels]
