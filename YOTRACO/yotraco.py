@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO)  # Set up logging globally
 
 class Yotraco:
 
-    def __init__(self, model_path, video_path, output_video, line_position='middle', track_direction='BOTH', classes_to_track=None):
+    def __init__(self, model_path, video_path, output_video, line_position='middle', track_direction='BOTH', classes_to_track=None , display_counts=True):
         """
         Initialize the YOTRACO object with the specified YOLO model and video processing settings.
 
@@ -45,6 +45,8 @@ class Yotraco:
         if not self.cap.isOpened():
             raise ValueError("Error: Could not open video file.")
 
+        self.display_counts=display_counts
+
         # Get video properties
         self.fps = self.cap.get(cv2.CAP_PROP_FPS)
         self.frame_width = int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -57,13 +59,15 @@ class Yotraco:
         self.out = cv2.VideoWriter(self.output_video, fourcc, self.fps, (self.frame_width, self.frame_height))
 
         # TODO : add more control for the lines and add the abillity to put two line vertical and horizontal
-        # Set line Y-coordinate based on position
+        # Set line Y-coordinate based on position , the Y_line is dynamic for the horizantal line
         if line_position == 'top':
             self.line_y = int(self.frame_height * 0.3)
         elif line_position == 'bottom':
             self.line_y = int(self.frame_height * 0.7)
         else:
             self.line_y = int(self.frame_height * 0.5)  # Default is middle
+        #We need to fix the X_line in the middel for the vertical line
+        self.line_x = int(self.frame_height*0.5)
 
         # Initialize movement direction and classes to track
         self.track_direction = track_direction
@@ -129,7 +133,7 @@ class Yotraco:
                         self.class_counts_out[class_name] += 1
                         self.stats.class_counts_out[class_name] += 1
                         self.crossed_ids[track_id] = cy
-
+ 
     def display_counts(self, frame):
         """
         Display the counts of objects that have crossed the line (both "IN" and "OUT").
@@ -157,12 +161,14 @@ class Yotraco:
         into the output video file.
         """
         while self.cap.isOpened():
+            
             ret, frame = self.cap.read()
             if not ret:
                 break
-
+            
             self.process_frame(frame)
-            self.display_counts(frame)
+            if self.display_counts==True:
+                self.display_counts(frame)
 
             # Save processed frame
             self.out.write(frame)
