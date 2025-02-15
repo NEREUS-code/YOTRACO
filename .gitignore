@@ -3,3 +3,4 @@ htmlcov/
 .pytest_cache/
 YOTRACO/__pycache__
 tests/__pycache__
+yotraco.egg-info/
