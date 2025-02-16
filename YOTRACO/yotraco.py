@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO)  # Set up logging globally
 
 class Yotraco:
 
-    def __init__(self, model_path, video_path, output_video, line_position='middle', track_direction='BOTH', classes_to_track=None , display_counts=True):
+    def __init__(self, model_path, video_path, output_video, line_position='middle', track_direction='BOTH', classes_to_track=None , display=True):
         """
         Initialize the YOTRACO object with the specified YOLO model and video processing settings.
 
@@ -45,7 +45,7 @@ class Yotraco:
         if not self.cap.isOpened():
             raise ValueError("Error: Could not open video file.")
 
-        self.display_counts=display_counts
+        self.display=display
 
         # Get video properties
         self.fps = self.cap.get(cv2.CAP_PROP_FPS)
@@ -167,8 +167,8 @@ class Yotraco:
                 break
             
             self.process_frame(frame)
-            if self.display_counts==True:
-                self.process_frame(frame)
+            if self.display==True:
+                self.display_counts(frame)
 
             # Save processed frame
             self.out.write(frame)
