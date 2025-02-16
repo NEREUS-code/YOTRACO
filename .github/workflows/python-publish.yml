@@ -55,18 +55,20 @@ jobs:
           name: release-dists
           path: dist/
 
-      - name: Publish to TestPyPI (Optional)
+      - name: Publish to TestPyPI 
         uses: pypa/gh-action-pypi-publish@master
         with:
           skip_existing : true
+          user: __token__
           password : $ ({secrets.test_pypi_password})
           repository-url: https://test.pypi.org/legacy/
           packages-dir: dist/
 
       - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+        uses: pypa/gh-action-pypi-publish@master
         with:
-          packages-dir: dist/
+          user: __token__
+          password: ${{secrets.pypi_password}}
 
       - name: Notify on failure
         if: failure()
