@@ -13,7 +13,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/NEREUS-code/YOTRACO">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="images/asset.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">YOTRACO</h3>
@@ -147,6 +147,16 @@ Yotraco Team - nereuscode@gmail.com
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+### Thanks
+Special thanks to the following resources and contributors who helped make this project possible:
+
+- Ultralytics <a href="https://github.com/ultralytics/ultralytics">YOLO</a> for their amazing object detection framework.
+- <a href="https://github.com/mouadhida"> Mouad Hida </a> for designing the project logo and enhancing the visual identity of this project.
+- All contributors who provided invaluable feedback and improvements.
+- The open-source community for continuous inspiration.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
