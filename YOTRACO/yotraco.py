@@ -1,6 +1,7 @@
 import os
 import cv2
 import logging
+# import threading
 from ultralytics import YOLO
 from collections import defaultdict
 from YOTRACO.yotracoStats import YotracoStats
@@ -21,53 +22,45 @@ class Yotraco:
         track_direction (str, optional): Direction to track ('BOTH', 'IN', or 'OUT'). Default is 'BOTH'.
         classes_to_track (list, optional): List of class indices to track. Default is [0, 1, 2, 3] (all classes).
         """
-        # TODO : blur person faces
+
         self.stats = YotracoStats() 
-        # # Load the YOLO model (can specify version/path)
-        # self.model = YOLO(model_path)  # Load the model from the specified path
-        # # TODO : check if the module already exists
-        # self.class_list = self.model.names  # List of class names in the YOLO model
 
         # Check if the model file exists
         if not os.path.exists(model_path):
-            logging.error(f"Error: Model file '{model_path}' not found.")
-            raise FileNotFoundError(f"Model file '{model_path}' not found.")
+            logging.info(f"Model file not found at'{model_path}' . \n Downloading...")
+        else:
+            logging.info(f"Model file found at '{model_path}'. \n Using it...")
+            logging.info(f"Loading YOLO model from {model_path}...")
 
-        logging.info(f"Loading YOLO model from {model_path}...")
         self.model = YOLO(model_path)  # Load the model
         self.class_list = self.model.names  # Get class names
 
         logging.info("YOLO model loaded successfully.")
 
-
         # Open the video file
-        self.cap = cv2.VideoCapture(video_path)
-        if not self.cap.isOpened():
+        self._cap = cv2.VideoCapture(video_path)
+        if not self._cap.isOpened():
             raise ValueError("Error: Could not open video file.")
 
         self.display=display
 
         # Get video properties
-        self.fps = self.cap.get(cv2.CAP_PROP_FPS)
-        self.frame_width = int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-        self.frame_height = int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        self.fps = self._cap.get(cv2.CAP_PROP_FPS)
+        self.frame_width = int(self._cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+        self.frame_height = int(self._cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
         # Define output video settings
-        self.output_video = output_video
+        self.output_video = output_video + ".avi"
         # TODO : support other extension
         fourcc = cv2.VideoWriter_fourcc(*'MJPG')  # Codec for .avi format
         self.out = cv2.VideoWriter(self.output_video, fourcc, self.fps, (self.frame_width, self.frame_height))
 
         # TODO : add more control for the lines and add the abillity to put two line vertical and horizontal
         # Set line Y-coordinate based on position , the Y_line is dynamic for the horizantal line
-        if line_position == 'top':
-            self.line_y = int(self.frame_height * 0.3)
-        elif line_position == 'bottom':
-            self.line_y = int(self.frame_height * 0.7)
-        else:
-            self.line_y = int(self.frame_height * 0.5)  # Default is middle
+        self.line_position = line_position
+
         #We need to fix the X_line in the middel for the vertical line
-        self.line_x = int(self.frame_height*0.5)
+        # self.line_x = int(self._frame_height*0.5)
 
         # Initialize movement direction and classes to track
         self.track_direction = track_direction
@@ -77,6 +70,37 @@ class Yotraco:
         self.class_counts_in = defaultdict(int)
         self.class_counts_out = defaultdict(int)
         self.crossed_ids = {}
+
+    # track direction getter
+    @property
+    def track_direction(self):
+        return self._track_direction
+    
+    # track direction setter
+    @track_direction.setter
+    def track_direction(self,direction):
+        if direction in ['BOTH', 'IN', 'OUT']:
+            self._track_direction = direction
+        else :
+            raise ValueError("track direction must be 'BOTH', 'IN', or 'OUT'")
+    
+    # line position getter 
+    @property
+    def line_position(self):
+        return self._line_y
+    
+    # line position setter
+    @line_position.setter
+    def line_position(self,position):
+        if position == 'top':
+            self._line_y = int(self.frame_height * 0.3)
+        elif position == 'bottom':
+            self._line_y = int(self.frame_height * 0.7)
+        elif position == 'middle':
+            self._line_y = int(self.frame_height * 0.5)  
+        else :
+            raise ValueError("line position must be 'top', 'middle', 'bottom' ")
+            
 
     def process_frame(self, frame):
         """
@@ -89,7 +113,7 @@ class Yotraco:
         results = self.model.track(frame, persist=True, classes=self.classes_to_track)
 
         # Draw tracking line across the full width of the frame
-        cv2.line(frame, (0, self.line_y), (self.frame_width, self.line_y), (0, 0, 255), 3)
+        cv2.line(frame, (0, self._line_y), (self.frame_width, self._line_y), (0, 0, 255), 3)
 
         # Process detections
         if results[0].boxes.data is not None:
@@ -117,19 +141,19 @@ class Yotraco:
                     self.crossed_ids[track_id] = cy
                 else:
                     prev_cy = self.crossed_ids[track_id]
-                    if self.track_direction == 'BOTH':  # Track both directions
-                        if prev_cy < self.line_y <= cy:  # Moving downward (OUT)
+                    if self._track_direction == 'BOTH':  # Track both directions
+                        if prev_cy < self._line_y <= cy:  # Moving downward (OUT)
                             self.class_counts_out[class_name] += 1
                             self.stats.class_counts_out[class_name] += 1
-                        elif prev_cy > self.line_y >= cy:  # Moving upward (IN)
+                        elif prev_cy > self._line_y >= cy:  # Moving upward (IN)
                             self.class_counts_in[class_name] += 1
                             self.stats.class_counts_in[class_name] += 1
                         self.crossed_ids[track_id] = cy
-                    elif self.track_direction == 'IN' and prev_cy > self.line_y >= cy:  # Track only IN
+                    elif self._track_direction == 'IN' and prev_cy > self._line_y >= cy:  # Track only IN
                         self.class_counts_in[class_name] += 1
                         self.stats.class_counts_in[class_name] += 1
                         self.crossed_ids[track_id] = cy
-                    elif self.track_direction == 'OUT' and prev_cy < self.line_y <= cy:  # Track only OUT
+                    elif self._track_direction == 'OUT' and prev_cy < self._line_y <= cy:  # Track only OUT
                         self.class_counts_out[class_name] += 1
                         self.stats.class_counts_out[class_name] += 1
                         self.crossed_ids[track_id] = cy
@@ -160,9 +184,9 @@ class Yotraco:
         Continuously processes the video, applies object detection and tracking, and saves the processed frames
         into the output video file.
         """
-        while self.cap.isOpened():
+        while self._cap.isOpened():
             
-            ret, frame = self.cap.read()
+            ret, frame = self._cap.read()
             if not ret:
                 break
             
@@ -174,8 +198,42 @@ class Yotraco:
             self.out.write(frame)
 
         # Release resources after processing
-        self.cap.release()
+        self._cap.release()
         self.out.release()
 
-    
-    # TODO : add a function for speed up process 
+
+    # TODO : fix the multithreading 
+    # def speed_process(self):
+    #     threads = []
+    #     while self._cap.isOpened():
+    #         ret, frame = self._cap.read()
+    #         if not ret:
+    #             break
+
+    #         # create a thread for processing each time
+    #         thread = threading.Thread(target=self.process_frame, args=(frame,))
+    #         threads.append(thread)
+    #         thread.start()
+
+    #         # limit the threads running at once 
+    #         if len(threads)>5:
+    #             for  t in threads:
+    #                 t.join()
+    #             threads = []
+
+
+    #         # display the counts if display is true
+    #         if self.display :
+    #             self.display_counts(frame)
+
+    #         self.out.write(frame) # save processed frame
+
+    #     # wait for all threads to complete before releasing resources
+    #     for t in threads:
+    #         t.join()
+
+    #     # release resources after processing
+    #     self._cap.release()
+    #     self.out.release()
+
+
