@@ -1,10 +1,61 @@
-# Yotraco
+<a id="readme-top"></a>
 
-## Overview
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![Unlicense License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
-Yotraco is an object tracking and counting system based on YOLO (You Only Look Once). It processes videos to detect, track, and count objects crossing a defined line in specified directions. It supports multiple object classes and can track both "IN" and "OUT" movements.
 
-## Features
+
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/NEREUS-code/YOTRACO">
+    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  </a>
+
+  <h3 align="center">YOTRACO</h3>
+
+  <p align="center">
+    Object tracking and counting system based on <a href="https://github.com/ultralytics/ultralytics">YOLO</a>
+    <br />
+    <br />
+    <a href="https://github.com/NEREUS-code/YOTRACO/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    &middot;
+    <a href="https://github.com/NEREUS-code/YOTRACO/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+  </p>
+</div>
+
+
+
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#usage">Usage</a></li>
+      </ul>
+    </li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ol>
+</details>
+
+
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
+[![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 - **Object Detection & Tracking**: Uses YOLO to detect and track objects in a video.
 - **Crossing Detection**: Counts objects that cross a defined line in the frame.
@@ -15,46 +66,100 @@ Yotraco is an object tracking and counting system based on YOLO (You Only Look O
 - **Processed Video Output**: Saves the processed video with tracking and count overlays.
 - **Logging & Statistics**: Maintains statistics of tracked objects.
 
-## Installation
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-```bash
-pip install -r requirements.txt
+
+
+<!-- GETTING STARTED -->
+
+### Installation
+
+Install the module with pip:
 ```
-
-Ensure you have `ultralytics` installed for YOLO model support.
-
-```bash
-pip install ultralytics
+pip install yotraco
 ```
+**Update existing installation:** ```pip install yotraco --upgrade```\
+(update as often as possible because this library is under active development)
 
-## Usage
+
+<!-- USAGE EXAMPLES -->
+### Usage
+
+To test yotraco you can try this simple example with your video:
 
 ```python
-from yotraco import Yotraco
+from YOTRACO import Yotraco
 
-yotraco = Yotraco(
-    model_path='path/to/yolo_model.pt',
-    video_path='path/to/input_video.mp4',
-    output_video='path/to/output_video.avi',
-    line_position='middle',
-    track_direction='BOTH',
-    classes_to_track=[0, 1, 2, 3]
-)
-yotraco.process_video()
+model = Yotraco("yolo11l.pt",                 # the path to the yolo.pt 
+                "your_video_path.mp4",        # the path to your video
+                "output",                     # the name of the output
+                "middle",                     # the line postion (by default : middle)
+                "BOTH",                       # the track direction (by default : Both )
+                classes_to_track=[0,1,2,3,4], # the class id to track 
+                display=True                  # display the counts in the output video
+                )
+
+model.process_video()
+
 ```
 
-## Dependencies
 
-- Python 3.7+
-- OpenCV (`cv2`)
-- Ultralytics YOLO (`ultralytics`)
-- NumPy
-- 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+<!-- CONTRIBUTING -->
+## Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+### Top contributors:
+
+<a href="https://github.com/NEREUS-code/YOTRACO/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=NEREUS-code/YOTRACO" alt="contrib.rocks image" />
+</a>
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- LICENSE -->
 ## License
 
-This project is licensed under the MIT License. See `LICENSE` for details.
+Distributed under the MIT license. See `LICENSE` for more information.
 
-## Authors
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-YOTRACO TEAM : Ben Yamna Mohammed , Makkour Israe 
+
+
+<!-- CONTACT -->
+## Contact
+
+Yotraco Team - nereuscode@gmail.com
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/NEREUS-code/YOTRACO.svg?style=for-the-badge
+[contributors-url]: https://github.com/NEREUS-code/YOTRACO/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/NEREUS-code/YOTRACO.svg?style=for-the-badge
+[forks-url]: https://github.com/NEREUS-code/YOTRACO/network/members
+[stars-shield]: https://img.shields.io/github/stars/NEREUS-code/YOTRACO.svg?style=for-the-badge
+[stars-url]: https://github.com/NEREUS-code/YOTRACO/stargazers
+[issues-shield]: https://img.shields.io/github/issues/NEREUS-code/YOTRACO.svg?style=for-the-badge
+[issues-url]: https://github.com/NEREUS-code/YOTRACO/issues
+[license-shield]: https://img.shields.io/github/license/NEREUS-code/YOTRACO.svg?style=for-the-badge
+[license-url]: https://github.com/NEREUS-code/YOTRACO/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://www.linkedin.com/in/mohammed-benyamna-504378318/
+
