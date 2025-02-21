@@ -54,15 +54,15 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
-- **Object Detection & Tracking**: Uses YOLO to detect and track objects in a video.
-- **Crossing Detection**: Counts objects that cross a defined line in the frame.
+This project leverages YOLO (You Only Look Once) for real-time object detection and tracking in video streams, enhancing analytical capabilities through automated monitoring and statistical reporting.
+- **Object Detection & Tracking**: Utilizes YOLO to detect and track objects in video footage with high accuracy.
+- **Crossing Detection**:  Automatically counts objects crossing a predefined line within the frame.
 - **Customizable Settings**:
-  - Define tracking line position (top, middle, bottom).
-  - Specify tracking direction (IN, OUT, or BOTH).
-  - Select specific object classes to track.
-- **Processed Video Output**: Saves the processed video with tracking and count overlays.
-- **Logging & Statistics**: Maintains statistics of tracked objects.
+  - Configure the tracking line position (top, middle, bottom).
+  - Define tracking direction (IN, OUT, or BOTH).
+  - Select specific object classes for monitoring.
+- **Processed Video Output**: Generates and saves processed video files with overlaid tracking data and object counts.
+- **Logging & Statistics**: Maintains detailed records and statistical insights on tracked objects for further analysis.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
