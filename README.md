@@ -55,8 +55,6 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
 - **Object Detection & Tracking**: Uses YOLO to detect and track objects in a video.
 - **Crossing Detection**: Counts objects that cross a defined line in the frame.
 - **Customizable Settings**:
