@@ -22,3 +22,7 @@ requires-python = ">=3.8"
 
 [project.urls]
 Homepage = "https://github.com/NEREUS-code/YOTRACO"
+
+[tool.setuptools.packages.find]
+include = ["YOTRACO*"]  
+exclude = ["images"]    # Exclude the images directory
