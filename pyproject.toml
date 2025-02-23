@@ -15,7 +15,8 @@ dependencies = [
     "torch",
     "opencv-python",
     "ultralytics",
-    "matplotlib"
+    "matplotlib",
+    "logging"
 ]
 requires-python = ">=3.8"
 
