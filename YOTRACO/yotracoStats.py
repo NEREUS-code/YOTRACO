@@ -1,3 +1,4 @@
+
 import json
 import csv
 import logging
@@ -33,7 +34,7 @@ class YotracoStats:
                         writer.writerow([key, data["in_counts"].get(key, 0), data["out_counts"].get(key,0)])
                 logging.info("Saved counts to CSV file: %s", filename)
             elif file_format == "xlsx": # Supports Excel
-                wb = openpyxl.workbook()
+                wb = openpyxl.Workbook()
                 ws=wb.active
                 ws.append(["Class" , "II Count", "OUT Count"])
                 for key in data["in_counts"]:
@@ -44,7 +45,7 @@ class YotracoStats:
                 with open(filename,"w") as f:
                     f.write("Class\tIN Count\tOUT Count")
                     for key in data["in_counts"]:
-                        f.write(f"{key}\t{data['in_counts'].get(key,0)}\t{data["out_counts"].get(key,0)}\n")
+                        f.write(f"{key}\t{data["in_counts"].get(key,0)}\t{data["out_counts"].get(key,0)}\n")
                 logging.info("Saved counts to TXT file: %s", filename)
             else:
                 # TODO : support other format
@@ -119,7 +120,7 @@ class YotracoStats:
                 raise ValueError("No data to display")
             all_labels=list(set(labels_in).union(set(labels_out)))
             in_counts = [self.class_counts_in.get(label,0) for label in all_labels]
-            out_count = [self.class_counts_out(label,0) for label in all_labels]
+            out_count = [self.class_counts_out.get(label,0) for label in all_labels]
             
             plt.figure(figsize=(8, 6))
             plt.scatter(in_counts, out_count, color='green', label='Objects', alpha=0.7)
