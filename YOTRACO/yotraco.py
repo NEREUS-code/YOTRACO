@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.INFO)  # Set up logging globally
 
 class Yotraco:
 
-    def __init__(self, model_path, video_path, output_video, line_position='middle', track_direction='BOTH', classes_to_track=None , display=True):
+    def __init__(self, model_path, video_path, output_video, output_format = 'mp4',line_position='middle', track_direction='BOTH', classes_to_track=None , display=True):
         """
         Initialize the YOTRACO object with the specified YOLO model and video processing settings.
 
@@ -43,16 +43,28 @@ class Yotraco:
             raise ValueError("Error: Could not open video file.")
 
         self.display=display
+        self.output_format = output_format.lower()
+
 
         # Get video properties
         self.fps = self._cap.get(cv2.CAP_PROP_FPS)
         self.frame_width = int(self._cap.get(cv2.CAP_PROP_FRAME_WIDTH))
         self.frame_height = int(self._cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
+        # Define output video settings based on format
+        fourcc_map = {
+            'avi': cv2.VideoWriter_fourcc(*'XVID'),
+            'mp4': cv2.VideoWriter_fourcc(*'mp4v'),
+            'mov': cv2.VideoWriter_fourcc(*'MJPG')
+        }
+
+        if self.output_format not in fourcc_map:
+            raise ValueError("Unsupported video format. Supported formats: avi, mp4, mov")
+
         # Define output video settings
-        self.output_video = output_video + ".avi"
+        self.output_video = f"{output_video}.{self.output_format}"
         # TODO : support other extension
-        fourcc = cv2.VideoWriter_fourcc(*'MJPG')  # Codec for .avi format
+        fourcc = fourcc_map[self.output_format]
         self.out = cv2.VideoWriter(self.output_video, fourcc, self.fps, (self.frame_width, self.frame_height))
 
         # TODO : add more control for the lines and add the abillity to put two line vertical and horizontal
