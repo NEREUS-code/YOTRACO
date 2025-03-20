@@ -17,7 +17,6 @@ dependencies = [
     "opencv-python",
     "ultralytics",
     "matplotlib",
-    "logging"
 ]
 requires-python = ">=3.8"
 
