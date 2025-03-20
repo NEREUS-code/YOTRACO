@@ -2,14 +2,13 @@ from setuptools import setup, find_packages
 
 setup(
     name="yotraco",
-    version="0.2.0",  # Updated version
+    version="0.2.1",  # Updated version
     packages=find_packages(include=["YOTRACO*"], exclude=["images"]),  # Match the inclusion/exclusion from pyproject
     install_requires=[
         "torch",
         "opencv-python",
         "ultralytics",
         "matplotlib",
-        "logging",  # Added logging from pyproject
     ],
     classifiers=[
         "Programming Language :: Python :: 3 :: Only",
