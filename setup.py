@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="yotraco",
-    version="0.2.3",  # Updated version
+    version="0.2.4",  # Updated version
     packages=find_packages(include=["YOTRACO*"], exclude=["images"]),  # Match the inclusion/exclusion from pyproject
     install_requires=[
         "torch",
