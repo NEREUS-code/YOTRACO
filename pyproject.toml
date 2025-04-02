@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "yotraco"
-version = "0.2.2"
+version = "0.2.3"
 
 description = "A YOLO-based object tracking and counting system."
 readme = "README.md"
