@@ -46,7 +46,7 @@ class Yotraco:
             raise ValueError("Error: Could not open video file.")
 
         self.display=display
-        self.output_format = output_format.lower()
+        self.output_format = "avi"
 
 
         # Get video properties
